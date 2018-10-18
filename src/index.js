@@ -14,9 +14,9 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { videos: []}; // contains a list of objects
+    this.state = { videos: [] }; // contains a list of objects
 
-    YTSearch({key: API_KEY, term: 'surfboards'}, (videos) => {
+    YTSearch({key: API_KEY, term: 'cats'}, (videos) => {
       this.setState({ videos }) // this.setState({ videos: videos })
     });
   }
