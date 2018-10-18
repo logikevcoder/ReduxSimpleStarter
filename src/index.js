@@ -10,24 +10,37 @@ const API_KEY = 'AIzaSyCyWzW8MsUhFD6aRAcM2nDC2ZDW9pND6Jg';
 
 
 class App extends Component {
-
-  // always gets called with props 
-  constructor(props) {
+  constructor(props) { // always gets called with props  
     super(props);
 
-    this.state = { videos: [] }; // contains a list of objects
+    this.state = { 
+      videos: [],
+      selectedVideo: null
+    }; // contains a list of objects
 
-    YTSearch({key: API_KEY, term: 'cats'}, (videos) => {
-      this.setState({ videos }) // this.setState({ videos: videos })
+    this.videoSearch('cats');
+  }
+
+  videoSearch(term) {
+    // function call to collect list of videos
+    YTSearch({key: API_KEY, term: term}, (videos) => { 
+      this.setState({ 
+        videos: videos, // pass list of videos
+        selectedVideo: videos[0] // first video set to variable
+      });
     });
   }
 
   render() {
     return (
       <div>
-        <SearchBar />
-        <VideoDetail video={this.state.videos[0]} />
-        <VideoList videos={this.state.videos} />
+        <SearchBar 
+          onSearchTermChange={term => this.videoSearch(term)} />
+        <VideoDetail 
+          video={this.state.selectedVideo} />
+        <VideoList 
+          onVideoSelect={selectedVideo => this.setState({selectedVideo})}
+          videos={this.state.videos} />
       </div>
     )
   } 
